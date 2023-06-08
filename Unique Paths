@@ -1,0 +1,14 @@
+#include <bits/stdc++.h> 
+
+long long binomialCoefficient(int n, int k) {
+    long long res = 1;
+    for (int i = 1; i <= k; i++) {
+        res = res * (n - i + 1) / i;
+    }
+    return res;
+}
+
+int uniquePaths(int m, int n) {
+	long long ans=binomialCoefficient(m+n-2, min(m-1,n-1));
+	return ans;
+}
