@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	int repeat,missing;
+	for(int i=0;i<n;i++)
+	{
+		int ind=abs(arr[i])-1;
+		if(arr[ind]>0)
+		{
+			arr[ind]=-arr[ind];
+		}
+		else
+		{
+			repeat=abs(arr[i]);
+		}
+	}
+
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]>0)
+		{
+			missing=i+1;
+		}
+	}
+
+	return {missing,repeat};
+}
