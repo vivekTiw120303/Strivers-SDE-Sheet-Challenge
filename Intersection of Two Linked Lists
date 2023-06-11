@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+            int data;
+            Node *next;
+            Node()
+            {
+                this->data = 0;
+                next = NULL;
+            }
+            Node(int data)
+            {
+                this->data = data;
+                this->next = NULL;
+            }
+            Node(int data, Node* next)
+            {
+                this->data = data;
+                this->next = next;
+            }
+        };
+
+*****************************************************************/
+
+Node* findIntersection(Node *node1, Node *node2)
+{
+    unordered_map<Node*,int>mp;
+    for(auto p=node1;p!=NULL;p=p->next)
+    {
+        mp[p]=p->data;
+    }
+    for(auto p=node2;p!=NULL;p=p->next)
+    {
+        if(mp.find(p)!=mp.end())
+        {
+            return p;
+        }
+    }
+    return NULL;
+}
