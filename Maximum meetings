@@ -1,0 +1,50 @@
+#include <bits/stdc++.h> 
+
+class Meet{
+    public:
+        int startT, endT, pos;
+};
+
+bool cmp(Meet m1, Meet m2)
+{
+    if(m1.endT<m2.endT)
+    {
+        return true;
+    }
+    if(m1.endT>m2.endT)
+    {
+        return false;
+    }
+    if(m1.pos<m2.pos)
+    {
+        return true;
+    }
+    return false;
+}
+
+vector<int> maximumMeetings(vector<int> &start, vector<int> &end) {
+    int n=start.size();
+    Meet m[n];
+    for(int i=0;i<n;i++)
+    {
+        m[i].startT=start[i];
+        m[i].endT=end[i];
+        m[i].pos=i+1;
+    }
+
+    sort(m,m+n,cmp);
+
+    vector<int>ans;
+    int t=m[0].endT;
+    ans.push_back(m[0].pos);
+
+    for(int i=1;i<n;i++)
+    {
+        if(m[i].startT>t)
+        {
+            t=m[i].endT;
+            ans.push_back(m[i].pos);
+        }
+    }
+    return ans;
+}
