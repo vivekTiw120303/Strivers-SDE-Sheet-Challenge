@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+
+void helper(int i, int k, vector<int>&arr, vector<int>&subsets, vector<vector<int>>&ans)
+{
+    if(i==arr.size())
+    {
+        if(k==0)
+        {
+            ans.push_back(subsets);
+        }
+        return;
+    }
+    
+    helper(i+1,k,arr,subsets,ans);
+    subsets.push_back(arr[i]);
+    helper(i+1,k-arr[i],arr,subsets,ans);
+    subsets.pop_back();
+}
+
+vector<vector<int>> findSubsetsThatSumToK(vector<int> arr, int n, int k){
+    // sort(arr.begin(),arr.end());
+    vector<vector<int>>ans;
+    vector<int>subsets;
+    helper(0,k,arr,subsets,ans);
+    return ans;  
+}
