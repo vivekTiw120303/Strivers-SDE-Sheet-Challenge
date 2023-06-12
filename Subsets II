@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+
+void SubsetSS(int i, vector<int>&arr, vector<int>&subsets, vector<vector<int>>&ans)
+{
+    ans.push_back(subsets);
+
+    for(int j=i;j<arr.size();j++)
+    {
+        if(j>i && arr[j]==arr[j-1])
+        {
+            continue;
+        }
+
+        subsets.push_back(arr[j]);
+        SubsetSS(j+1, arr, subsets, ans);
+        subsets.pop_back();
+    }
+    return;
+}
+
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
+{
+    sort(arr.begin(),arr.end());
+
+    vector<int>subsets;
+    vector<vector<int>>ans;
+    SubsetSS(0, arr, subsets, ans);
+    return ans;
+}
