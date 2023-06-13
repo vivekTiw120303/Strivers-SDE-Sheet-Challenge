@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+
+void helper(string &s, vector<int>&vis, string &ds, vector<string>&ans)
+{
+    if(ds.size()==s.size())
+    {
+        ans.push_back(ds);
+        return;
+    }
+    for(int j=0;j<s.size();j++)
+    {
+        if(!vis[j])
+        {
+            ds+=s[j];
+            vis[j]=1;
+            helper(s,vis,ds,ans);
+            vis[j]=0;
+            ds.pop_back();
+        }
+    }
+}
+
+vector<string> findPermutations(string &s) {
+    vector<string>ans;
+    vector<int>vis(s.size(),0);
+    string ds="";
+    helper(s,vis,ds,ans);
+    return ans;
+}
