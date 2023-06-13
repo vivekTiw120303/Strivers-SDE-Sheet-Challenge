@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+
+class Act{
+    public:
+        int startT, endT;
+};
+
+bool cmp(Act v1, Act v2)
+{
+    return v1.endT<v2.endT;
+}
+
+int maximumActivities(vector<int> &start, vector<int> &end) {
+    int n=start.size();
+    Act v[n];
+    for(int i=0;i<n;i++)
+    {
+        v[i].startT=start[i];
+        v[i].endT=end[i];
+    }
+
+    sort(v,v+n,cmp);
+
+    int cnt=1;
+    int finish=v[0].endT;
+    for(int i=1;i<n;i++)
+    {
+        if(finish<=v[i].startT)
+        {
+            cnt++;
+            finish=v[i].endT;
+        }
+    }
+    return cnt;
+}
