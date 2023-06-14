@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+
+vector<int> merge(vector<int>&v1, vector<int>&v2)
+{
+    vector<int>v;
+    int i=0,j=0;
+
+    while(i<v1.size() && j<v2.size())
+    {
+        if(v1[i]<v2[j])
+        {
+            v.push_back(v1[i]);
+            i++;
+        }
+        else
+        {
+            v.push_back(v2[j]);
+            j++;
+        }
+    }
+
+    while(i<v1.size())
+    {
+        v.push_back(v1[i]);
+        i++;
+    }
+    while(j<v2.size())
+    {
+        v.push_back(v2[j]);
+        j++;
+    }
+
+    return v;
+}
+
+int getMedian(vector<vector<int>> &matrix)
+{
+    vector<int>v;
+    for(int i=0;i<matrix.size();i++)
+    {
+        v=merge(v,matrix[i]);
+    }
+
+    int n=v.size();
+    if(n%2) return v[n/2];
+
+    return (v[n/2-1]+v[n/2])/2;
+}
