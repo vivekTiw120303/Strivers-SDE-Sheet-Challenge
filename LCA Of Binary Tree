@@ -1,0 +1,41 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+TreeNode<int>* LCA(TreeNode<int>* node, int x, int y)
+{
+    if(!node || node->data==x || node->data==y)
+    {
+        return node;
+    }
+
+    TreeNode<int>* l=LCA(node->left,x,y);
+    TreeNode<int>* r=LCA(node->right,x,y);
+
+    if(!r) return l;
+    else if(!l) return r;
+    else return node;
+}
+
+int lowestCommonAncestor(TreeNode<int> *root, int x, int y)
+{
+    TreeNode<int>* node = LCA(root,x,y);
+    return node->data;
+}
