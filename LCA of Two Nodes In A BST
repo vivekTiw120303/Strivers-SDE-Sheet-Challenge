@@ -1,0 +1,51 @@
+#include <bits/stdc++.h> 
+/************************************************************
+    Following is the Binary Search Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+
+TreeNode<int>* LCA(TreeNode<int>* node, int x, int y)
+{
+    if(node->data==x || node->data==y)
+    {
+        return node;
+    }
+    if(node->data>x && node->data<y)
+    {
+        return node;
+    }
+    if(node->data>x && node->data>y)
+    {
+        return LCA(node->left,x,y);
+    }
+    return LCA(node->right,x,y);
+}
+
+TreeNode<int>* LCAinaBST(TreeNode<int>* root, TreeNode<int>* P, TreeNode<int>* Q)
+{
+	int x=P->data;
+    int y=Q->data;
+
+    return LCA(root, min(x,y), max(x,y));
+}
