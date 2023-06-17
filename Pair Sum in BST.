@@ -1,0 +1,96 @@
+#include <bits/stdc++.h> 
+/**********************************************************
+
+    Following is the Binary Tree Node structure:
+
+    template <typename T>
+    class BinaryTreeNode {
+        public: 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~BinaryTreeNode() {
+            if (left)
+                delete left;
+            if (right)
+                delete right;
+        }
+    };
+***********************************************************/
+
+class BSTiterator
+{
+    public: 
+    stack<BinaryTreeNode<int>*>st;
+    bool reverse;
+    void pushAll(BinaryTreeNode<int>* node, stack<BinaryTreeNode<int>*>&st)
+    {
+        BinaryTreeNode<int>* temp=node;
+        while(temp)
+        {
+            st.push(temp);
+            if(reverse)
+            {
+                temp=temp->right;
+            }
+            else
+            {
+                temp=temp->left;
+            }
+        }
+    }
+
+    BSTiterator(BinaryTreeNode<int> *root, bool isReverse)
+    {
+        reverse=isReverse;
+        pushAll(root,st);
+    }
+
+    int next()
+    {
+        BinaryTreeNode<int>* node=st.top();
+        st.pop();
+        if(reverse)
+        {
+            pushAll(node->left,st);
+        }
+        else
+        {
+            pushAll(node->right,st);
+        }
+        return node->data;
+    }
+};
+
+bool pairSumBst(BinaryTreeNode<int> *root, int k)
+{
+    if(!root) false;
+
+    BSTiterator l(root,false);
+    BSTiterator r(root,true);
+
+    int i=l.next(), j=r.next();
+    while(i<j)
+    {
+        if(i+j==k)
+        {
+            return true;
+        }
+        if(i+j<k)
+        {
+            i=l.next();
+        }
+        else
+        {
+            j=r.next();
+        }
+    }
+    return false;
+}
