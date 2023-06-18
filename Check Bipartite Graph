@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+
+bool bfs(int i, vector<int>&vis, vector<int>adj[], vector<int>&color)
+{
+	queue<pair<int,int>>q;
+	q.push({i,0});
+	vis[i]=1;
+	color[i]=0;
+
+	while(!q.empty())
+	{
+		int node=q.front().first;
+		int col=q.front().second;
+		q.pop();
+
+		for(auto it:adj[node])
+		{
+			if(!vis[it])
+			{
+				color[it]=!color[node];
+				vis[it]=1;
+				q.push({it,color[it]});
+			}
+			else if(color[it]==col)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	int n=edges.size();
+	vector<int>adj[n+1];
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(edges[i][j]==1)
+			{
+				adj[i].push_back(j);
+			}
+		}
+	}
+
+	vector<int>vis(n,0), color(n,-1);
+	for(int i=0;i<n;i++)
+	{
+		if(!vis[i])
+		{
+			if(!bfs(i,vis,adj,color))
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
