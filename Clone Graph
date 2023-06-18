@@ -1,0 +1,59 @@
+#include <bits/stdc++.h> 
+/***************************************************************************
+
+	Class for graph node is as follows:
+
+	class graphNode
+	{
+		public:
+    		int data;
+    	vector<graphNode *> neighbours;
+    	graphNode()
+    	{
+        	data = 0;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val)
+    	{
+        	data = val;
+        	neighbours = vector<graphNode *>();
+    	}
+
+    	graphNode(int val, vector<graphNode *> neighbours)
+    	{
+        	data = val;
+        	this->neighbours = neighbours;
+    	}
+	};
+
+******************************************************************************/
+
+unordered_map<graphNode*, graphNode*>mp;
+
+void solve(graphNode* node)
+{
+	graphNode* curr=new graphNode(node->data);
+	mp[node]=curr;
+
+	for(auto it: node->neighbours)
+	{
+		if(mp.find(it)!=mp.end())
+		{
+			curr->neighbours.push_back(mp[it]);
+		}
+		else
+		{
+			solve(it);
+			curr->neighbours.push_back(mp[it]);
+		}
+	}
+}
+
+graphNode *cloneGraph(graphNode *node)
+{
+    if(!node) return NULL;
+	
+	solve(node);
+	return mp[node];
+}
