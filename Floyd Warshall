@@ -1,0 +1,28 @@
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    vector<vector<int>>adj(n+2, vector<int>(n+2,1000000000));
+    for(auto it:edges)
+    {
+        int u=it[0], v=it[1], wt=it[2];
+        adj[u][v]=wt;
+    }
+    for(int i=1;i<=n;i++)
+    {
+        adj[i][i]=0;
+    }
+
+    for(int via=1;via<=n;via++)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                if(adj[i][via]!=1000000000 && adj[via][j]!=1000000000)
+                {
+                    adj[i][j]=min(adj[i][j], adj[i][via]+adj[via][j]);
+                }
+            }
+        }
+    }
+
+    return adj[src][dest];
+}
