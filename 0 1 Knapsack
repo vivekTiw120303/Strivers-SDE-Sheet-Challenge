@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+
+int memo(int i, int w, vector<int>&values, vector<int>&weights, vector<vector<int>>&dp)
+{
+	if(i==values.size())
+	{
+		return 0;
+	}
+	if(dp[i][w]!=-1)
+	{
+		return dp[i][w];
+	}
+
+	int take=0;
+	if(weights[i]<=w)
+	{
+		take=values[i]+memo(i+1,w-weights[i],values,weights,dp);
+	}
+	int notTake=memo(i+1,w,values,weights,dp);
+
+	return dp[i][w]=max(take,notTake);
+}
+
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{
+	vector<vector<int>>dp(n+1, vector<int>(w+1,-1));
+	return memo(0,w,values,weights,dp);
+}
