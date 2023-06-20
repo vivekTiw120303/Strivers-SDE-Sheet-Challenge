@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+
+long memo(int i, int val, int *d, vector<vector<long>>&dp)
+{
+    if(i==0)
+    {
+        if(val%d[i]==0)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    if(dp[i][val]!=-1)
+    {
+        return dp[i][val];
+    }
+
+    long notTake=memo(i-1,val,d,dp);
+    long take=0;
+    if(d[i]<=val)
+    {
+        take=memo(i,val-d[i],d,dp);
+    }
+    return dp[i][val]=take+notTake;
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    vector<vector<long>>dp(n+1, vector<long>(value+1,-1));
+    return memo(n-1,value,denominations,dp);
+}
