@@ -1,0 +1,30 @@
+#include <bits/stdc++.h> 
+
+bool cmp(pair<int,int>&p1, pair<int,int>&p2)
+{
+    return (double)p1.second/p1.first > (double)p2.second/p2.first;
+}
+
+double maximumValue (vector<pair<int, int>>& items, int n, int w)
+{
+    sort(items.begin(),items.end(),cmp);
+
+    double ans=0.0;
+    int i=0;
+    while(i<n && w>0)
+    {
+        if(w>=items[i].first)
+        {
+            ans+=items[i].second;
+            w-=items[i].first;
+        }
+        else
+        {
+            ans+=(items[i].second*((double)w/items[i].first));
+            break;
+        }
+        i++;
+    }
+
+    return ans;
+}
