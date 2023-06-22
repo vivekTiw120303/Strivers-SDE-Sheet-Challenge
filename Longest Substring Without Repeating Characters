@@ -1,0 +1,25 @@
+#include <bits/stdc++.h> 
+int uniqueSubstrings(string input)
+{
+    vector<int>vis(26,0);
+    int l=0,r=0;
+    int ans=0;
+
+    while(r<input.size())
+    {
+        int ch=input[r]-'a';
+        if(vis[ch]==0)
+        {
+            vis[ch]=1;
+            r++;
+        }
+        else
+        {
+            ans=max(ans,r-l);
+            vis[input[l]-'a']=0;
+            l++;
+        }
+    }
+    ans=max(ans,r-l);
+    return ans;
+}
