@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+
+vector<int> z_algo(string &str, int len)
+{
+	int l=0,r=0;
+	vector<int>z(len,0);
+
+	for(int i=1;i<len;i++)
+	{
+		if(i>r)
+		{
+			l=r=i;
+			while(r<len && str[r]==str[r-l])
+			{
+				r++;
+			}
+			z[i]=r-l;
+			r--;
+		}
+		else
+		{
+			int ind=i-l;
+			if(i+z[ind]<=r)
+			{
+				z[i]=z[ind];
+			}
+			else
+			{
+				l=i;
+				while(r<len && str[r]==str[r-l])
+				{
+					r++;
+				}
+				z[i]=r-l;
+				r--;
+			}
+		}
+	}
+	return z;
+}
+
+int zAlgorithm(string s, string p, int n, int m)
+{
+	string str=p+"$"+s;
+	int newLen=n+m+1;
+
+	vector<int>z=z_algo(str,newLen);
+
+	int cnt=0;
+	for(int i=m;i<newLen;i++)
+	{
+		if(z[i]==m)
+		{
+			cnt++;
+		}
+	}
+	return cnt;
+}
