@@ -1,0 +1,65 @@
+#include <bits/stdc++.h> 
+
+vector<int> kmp_algo(string &p, int n)
+{
+    vector<int>kmp(n,0);
+    int i=1, len=0;
+
+    while(i<n)
+    {
+        if(p[i]==p[len])
+        {
+            len++;
+            kmp[i]=len;
+            i++;
+        }
+        else
+        {
+            if(len!=0)
+            {
+                len=kmp[len-1];
+            }
+            else
+            {
+                kmp[i]=0;
+                i++;
+            }
+        }
+    }
+    return kmp;
+}
+
+bool findPattern(string p, string s)
+{
+    int n=p.length(), m=s.length();
+
+    vector<int>kmp=kmp_algo(p,n);
+
+    int i=0,j=0;
+
+    while(i<m)
+    {
+        if(s[i]==p[j])
+        {
+            i++;
+            j++;
+        }
+
+        if(j==n)
+        {
+            return true;
+        }
+        else if(i<m && p[j]!=s[i])
+        {
+            if(j!=0)
+            {
+                j=kmp[j-1];
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+    return false;
+}
