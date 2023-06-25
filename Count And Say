@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+string writeAsYouSpeak(int n) 
+{
+	string ans="1";
+
+	for(int i=1;i<n;i++)
+	{
+		string s="";
+		for(int j=0;j<ans.size();j++)
+		{
+			int cnt=1;
+			while(j<ans.size() && ans[j+1]==ans[j])
+			{
+				cnt++;
+				j++;
+			}
+			char ch=cnt+'0';
+			s+=ch;
+			s+=ans[j];
+		}
+		ans=s;
+	}
+	return ans;
+}
