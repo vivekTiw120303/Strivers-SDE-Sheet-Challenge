@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+int memo(int i, int prev, vector<int>&arr, vector<vector<int>>&dp)
+{
+    if(i==arr.size())
+    {
+        return 0;
+    }
+    if(dp[i][prev+1]!=-1)
+    {
+        return dp[i][prev+1];
+    }
+    
+    int take=0;
+    if(prev==-1 || arr[i]-arr[prev]==1)
+    {
+        take=1+memo(i+1,i,arr,dp);
+    }
+    int notTake=memo(i+1,prev,arr,dp);    
+
+    return dp[i][prev+1] = max(take,notTake);
+}
+
+int lengthOfLongestConsecutiveSequence(vector<int> &arr, int n) {
+    unordered_set<int>s(arr.begin(),arr.end());
+
+    int ans=1;
+    for(auto it:s)
+    {
+        if(s.count(it-1)==0)
+        {
+            int curr=it;
+            int len=1;
+
+            while(s.count(curr+1)!=0)
+            {
+                curr++;
+                len++;
+            }
+            ans=max(ans,len);
+        }
+    }
+    return ans;
+}
