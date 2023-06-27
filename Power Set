@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+
+void subsetSS(int i, int n, vector<int>&v, vector<int>&subset, vector<vector<int>>&ans)
+{
+    ans.push_back(subset);
+    
+    for(int ind=i;ind<n;ind++)
+    {
+        subset.push_back(v[ind]);
+        subsetSS(ind+1, n, v, subset, ans);
+        subset.pop_back();
+    }
+}
+
+vector<vector<int>> pwset(vector<int>v)
+{
+    sort(v.begin(),v.end());
+    vector<vector<int>>ans;
+    vector<int>subset;
+    subsetSS(0,v.size(),v,subset,ans);
+    return ans;
+}
