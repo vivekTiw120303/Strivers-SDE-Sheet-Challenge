@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+
+int memo(int i, int j, int n, int m, vector<vector<int>>&grid, vector<vector<int>> &dp)
+{
+    if(i==n-1 && j==m-1){
+        return grid[i][j];
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+
+    int right=INT_MAX;
+    if(j+1<m){
+        right=grid[i][j]+memo(i,j+1,n,m,grid,dp);
+    }
+    int down=INT_MAX;
+    if(i+1<n){
+        down=grid[i][j]+memo(i+1,j,n,m,grid,dp);
+    } 
+
+    return dp[i][j]=min(right,down);
+}
+
+int minSumPath(vector<vector<int>> &grid) {
+    int n=grid.size(), m=grid[0].size();
+    vector<vector<int>>dp(n, vector<int>(m,-1));
+    return memo(0,0,n,m,grid,dp);
+}
