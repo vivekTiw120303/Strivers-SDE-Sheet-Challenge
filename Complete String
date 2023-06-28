@@ -1,0 +1,85 @@
+#include <bits/stdc++.h> 
+
+class Node{
+    public:
+        Node* links[26];
+        bool flag=false;
+
+        bool containsChar(char ch){
+            return links[ch-'a']!=NULL;
+        }
+
+        void put(char ch, Node* node){
+            links[ch-'a']=node;
+        }
+
+        Node* get(char ch){
+            return links[ch-'a'];
+        }
+
+        void setEnd(){
+            flag=true;
+        }
+
+        bool isEnd(){
+            return flag;
+        }
+};
+
+class Trie{
+    public:
+        Node* root;
+        Trie(){
+            root=new Node();
+        }
+
+        void insert(string word)
+        {
+            Node* node=root;
+            for(int i=0;i<word.size();i++)
+            {
+                if(!node->containsChar(word[i]))
+                {
+                    node->put(word[i],new Node());
+                }
+                node=node->get(word[i]);
+            }
+            node->setEnd();
+        }
+
+        bool check(string word)
+        {
+            Node* node=root;
+            for(int i=0;i<word.size();i++)
+            {
+                if(node->containsChar(word[i])){
+                    node=node->get(word[i]);
+                    if(!node->isEnd()) return false;
+                }
+            }
+            return true;
+        }
+};  
+
+string completeString(int n, vector<string> &a){
+    Trie trie;
+    for(auto it:a){
+        trie.insert(it);
+    }
+
+    string ans="";
+
+    for(auto it:a)
+    {
+        if(trie.check(it))
+        {
+            if(it.size()>ans.size()){
+                ans=it;
+            } else if (it.size() == ans.size() && it < ans) {
+              ans = it;
+            }
+        }
+    }
+
+    return (ans=="") ? "None" : ans;
+}
