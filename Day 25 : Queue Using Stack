@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+
+class Queue {
+    stack<int>s1,s2;
+    
+    public:
+    Queue() {
+    }
+
+    void enQueue(int val) {
+        s1.push(val);
+
+        stack<int>temp;
+        while(!s2.empty()){
+            temp.push(s2.top());
+            s2.pop();
+        }
+        temp.push(val);
+
+        while(!temp.empty()){
+            s2.push(temp.top());
+            temp.pop();
+        }
+    }
+
+    int deQueue() {
+        if(s1.size()==0) return -1;
+
+        s2.pop();
+
+        stack<int>temp;
+        while(!s1.empty()){
+            temp.push(s1.top());
+            s1.pop();
+        }
+        int x=temp.top();
+        temp.pop();
+
+        while(!temp.empty()){
+            s1.push(temp.top());
+            temp.pop();
+        }
+
+        return x;
+    }
+
+    int peek() {
+        return (s2.size()>0) ? s2.top() : -1;
+    }
+
+    bool isEmpty() {
+        return s2.size()==0;
+    }
+};
