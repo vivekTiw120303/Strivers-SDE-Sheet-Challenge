@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+
+bool isValidParenthesis(string &word)
+{
+    stack<char>st;
+    for(int i=0;i<word.size();i++)
+    {
+        if(st.empty()){
+            st.push(word[i]);
+        }
+        else if(st.top()=='{' && word[i]=='}'){
+            st.pop();
+        }
+        else if(st.top()=='[' && word[i]==']'){
+            st.pop();
+        }
+        else if(st.top()=='(' && word[i]==')'){
+            st.pop();
+        }
+        else{
+            st.push(word[i]);
+        }
+    }
+    return st.empty();
+}
