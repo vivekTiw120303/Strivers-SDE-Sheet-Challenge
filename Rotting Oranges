@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+
+bool check(int r, int c, int n, int m){
+    return r>=0 && r<n && c>=0 && c<m;
+}
+
+int minTimeToRot(vector<vector<int>>& grid, int n, int m)
+{
+    queue<pair<int,pair<int,int>>>q;
+    vector<vector<int>>vis(n, vector<int>(m,0));
+    int cntFresh=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(grid[i][j]==1){
+                cntFresh++;
+            }
+            else if(grid[i][j]==2){
+              q.push({0, {i, j}});
+              vis[i][j]=1;
+            }
+        }
+    }
+
+    int ans=0, currRot=0;
+    vector<int>delrow{0,-1,0,1};
+    vector<int>delcol{-1,0,1,0};
+    while(!q.empty())
+    {
+        auto it=q.front();
+        q.pop();
+        int t=it.first;
+        int row=it.second.first;
+        int col=it.second.second;
+
+        ans=max(ans,t);
+
+        for(int k=0;k<4;k++)
+        {
+            int r=row+delrow[k];
+            int c=col+delcol[k];
+
+            if(check(r,c,n,m) && !vis[r][c] && grid[r][c]==1){
+                currRot++;
+                vis[r][c]=1;
+                q.push({t+1,{r,c}});
+            }
+        }
+    }
+    if(currRot==cntFresh) return ans;
+    return -1;
+}
