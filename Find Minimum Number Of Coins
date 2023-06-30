@@ -1,0 +1,23 @@
+#include <bits/stdc++.h> 
+int findMinimumCoins(int amt) 
+{
+    int cnt1000=amt/1000;
+    amt%=1000;
+    int cnt500=amt/500;
+    amt%=500;
+    int cnt100=amt/100;
+    amt%=100;
+    int cnt50=amt/50;
+    amt%=50;
+    int cnt20=amt/20;
+    amt%=20;
+    int cnt10=amt/10;
+    amt%=10;
+    int cnt5=amt/5;
+    amt%=5;
+    int cnt2=amt/2;
+    amt%=2;
+    int cnt1=amt;
+    
+    return (cnt1 + cnt2 + cnt5 + cnt10 + cnt20 + cnt50 + cnt100 + cnt500 + cnt1000);
+}
