@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+
+void dfs(int node, vector<int>adj[], vector<int>&vis, stack<int>&st)
+{
+    vis[node]=1;
+    for(auto it:adj[node])
+    {
+        if(!vis[it]) dfs(it,adj,vis,st);
+    }
+    st.push(node);
+}
+
+void dfs2(int node, vector<int>adj[], vector<int>&vis, vector<int>&temp)
+{
+    vis[node]=1;
+    temp.push_back(node);
+    for(auto it:adj[node])
+    {
+        if(!vis[it]) dfs2(it,adj,vis,temp);
+    }
+}
+
+vector<vector<int>> stronglyConnectedComponents(int n, vector<vector<int>> &edges)
+{
+    vector<int>adj[n];
+    for(auto it:edges){
+        int u=it[0], v=it[1];
+        adj[u].push_back(v);
+    }
+
+    stack<int>st;
+    vector<int>vis(n,0);
+    for(int i=0;i<n;i++){
+        if(!vis[i]){
+            dfs(i,adj,vis,st);
+        }
+    }
+
+    vector<int>newAdj[n];
+    for(auto it:edges)
+    {
+        int u=it[0], v=it[1];
+        newAdj[v].push_back(u);
+    }
+
+    vector<vector<int>>scc;
+    vector<int>vis2(n,0);
+    while(!st.empty())
+    {
+        int node=st.top();
+        st.pop();
+
+        vector<int>temp;
+        if(!vis2[node])
+        {
+            dfs2(node,newAdj,vis2,temp);
+        }
+        scc.push_back(temp);
+    }
+    return scc;
+}
