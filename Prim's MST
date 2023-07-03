@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
+{
+    vector<vector<int>>adj[n+2];
+    for(auto it:g)
+    {
+        int u=it.first.first;
+        int v=it.first.second;
+        int wt=it.second;
+
+        adj[u].push_back({v,wt});
+        adj[v].push_back({u,wt});
+    }
+
+    // {weight, {node, parent}};
+    priority_queue<pair<int, pair<int,int>>, vector<pair<int, pair<int,int>>>, greater<pair<int, pair<int,int>>> >pq;
+    pq.push({0,{1,-1}});
+    vector<int>vis(n+1,0);
+    vector<pair<pair<int,int>, int>>mst;
+
+    while(!pq.empty())
+    {
+        int wt=pq.top().first;
+        int node=pq.top().second.first;
+        int parent=pq.top().second.second;  
+        pq.pop();
+
+        if(!vis[node])
+        {
+            vis[node]=1;
+            if(parent!=-1){
+                mst.push_back({{node,parent}, wt});
+            }
+            for(auto it:adj[node])
+            {
+                int adjNode=it[0];
+                int adjWeight=it[1];
+                if(!vis[adjNode])
+                {
+                    pq.push({adjWeight,{adjNode,node}});
+                }
+            }
+        }
+    }
+    return mst;
+}
