@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+long getTrappedWater(long *arr, int n){
+    if(n==1) return 0;
+
+    vector<long>lge(n,-1), rge(n,-1);
+    lge[0]=arr[0];
+    rge[n-1]=arr[n-1];
+
+    for(int i=1;i<n;i++) lge[i]=max(lge[i-1],arr[i]);
+    for(int i=n-2;i>=0;i--) rge[i]=max(rge[i+1],arr[i]);
+
+    long ans=0;
+    for(int i=0;i<n;i++)
+    {
+        ans+=min(lge[i],rge[i])-arr[i];
+    }
+    return ans;
+}
