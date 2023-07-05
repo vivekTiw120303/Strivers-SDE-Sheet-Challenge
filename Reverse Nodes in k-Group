@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+
+Node *getListAfterReverseOperation(Node *head, int n, int b[]){
+	Node* ans=new Node(0);
+	Node* temp=ans;
+	stack<int>st;
+	for(int i=0;i<n;i++)
+	{
+		while(b[i]-- && head!=NULL)
+		{
+			st.push(head->data);
+			head=head->next;
+		}
+
+		while(!st.empty())
+		{
+			temp->next=new Node(st.top());
+			temp=temp->next;
+			st.pop();
+		}
+
+		if(head==NULL){
+			break;
+		}
+	}
+
+	while(head!=NULL){
+		temp->next=head;
+		temp=temp->next;
+		head=head->next;
+	}
+	return ans->next;
+}
