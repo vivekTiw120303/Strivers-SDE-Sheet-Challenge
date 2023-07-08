@@ -1,0 +1,40 @@
+#include <bits/stdc++.h> 
+vector<int> maxMinWindow(vector<int> &arr, int n) {
+    vector<int>lse(n+1,-1), rse(n+1,n);
+    stack<int>st;
+    for(int i=0;i<n;i++)
+    {
+        while(!st.empty() && arr[st.top()]>=arr[i]){
+            st.pop();
+        }
+
+        if(!st.empty()) lse[i]=st.top();
+        st.push(i);
+    }
+
+    while(!st.empty()) st.pop();
+
+    for(int i=n-1;i>=0;i--)
+    {
+        while(!st.empty() && arr[st.top()]>=arr[i]){
+            st.pop();
+        }
+
+        if(!st.empty()) rse[i]=st.top();
+        st.push(i);
+    }
+
+    vector<int>ans(n+1,INT_MIN);
+    for(int i=0;i<n;i++)
+    {
+        int len=rse[i]-lse[i]-1;
+        ans[len]=max(ans[len],arr[i]);
+    }
+
+    for(int i=n-1;i>=0;i--)
+    {
+        ans[i]=max(ans[i],ans[i+1]);
+    }
+    ans.erase(ans.begin());
+    return ans;
+}
