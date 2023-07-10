@@ -1,0 +1,63 @@
+#include <bits/stdc++.h> 
+class LFUCache
+{
+public:
+    int capacity;
+    int minFreq;
+    unordered_map<int, pair<int,int>>cache;
+    unordered_map<int, list<int>>freq;
+    unordered_map<int, list<int>::iterator>pos;
+    
+    LFUCache(int capacity)
+    {
+        this->capacity=capacity;
+        minFreq=0;
+    }
+
+    int get(int key)
+    {
+        if(cache.find(key)==cache.end()){
+            return -1;
+        }
+
+        int f=cache[key].second;
+        freq[f].erase(pos[key]);
+        f++;
+
+        freq[f].push_front(key);
+        pos[key]=freq[f].begin();
+
+        if(freq[minFreq].empty()){
+            minFreq++;
+        }
+        return cache[key].first;
+    }
+
+    void put(int key, int value)
+    {
+        if(cache.find(key)!=cache.end()){
+            cache[key].first=value;
+            int f=cache[key].second;
+            freq[f].erase(pos[key]);
+            f++;
+
+            freq[f].push_front(key);
+            pos[key]=freq[f].begin();
+            if(freq[minFreq].empty()){
+                minFreq++;
+            }
+        }
+
+        if(cache.size()==capacity){
+            int k=freq[minFreq].back();
+            cache.erase(k);
+            pos.erase(k);
+            freq[minFreq].pop_front();
+        }
+
+        cache[key]={value,1};
+        freq[1].push_front(key);
+        pos[key]=freq[1].begin();
+        minFreq=1;
+    }
+};
