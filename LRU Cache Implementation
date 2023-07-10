@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+
+class LRUCache
+{
+public:
+    int capacity;
+    list<pair<int,int>>l;
+    unordered_map<int, list<pair<int,int>>:: iterator>mp;
+
+    LRUCache(int capacity)
+    {
+        this->capacity=capacity;
+    }
+
+    int get(int key)
+    {
+        if(mp.find(key)==mp.end()) return -1;
+
+        auto x=mp[key];
+        int data=x->second;
+        l.erase(x);
+        l.push_front({key,data});
+        mp[key]=l.begin();
+        return data;
+    }
+
+    void put(int key, int value)
+    {
+        // already existed
+        if(mp.find(key)!=mp.end()){
+            l.erase(mp[key]);
+            mp.erase(key);
+        }
+
+        if(l.size()==capacity){
+            auto it=l.back();
+            l.erase(mp[it.first]);
+            mp.erase(it.first);
+        }
+
+        l.push_front({key,value});
+        mp[key]=l.begin();
+    }
+};
