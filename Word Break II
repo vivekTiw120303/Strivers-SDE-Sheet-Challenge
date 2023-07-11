@@ -1,0 +1,37 @@
+#include <bits/stdc++.h> 
+
+void helper(int i, int n, string &word, set<string>&st, string &path, vector<string>&ans)
+{
+    if(i==n){
+        ans.push_back(path);
+        return;
+    }
+
+    string temp="";
+    for(int j=i;j<n;j++)
+    {
+        temp+=word[j];
+        if(st.find(temp)!=st.end()){
+            int sz=path.size();
+            path+=(temp+" ");
+            helper(j+1,n,word,st,path,ans);
+            while(path.size()!=sz){
+                path.pop_back();
+            }
+        }
+    }
+}
+
+vector<string> wordBreak(string &s, vector<string> &dictionary)
+{
+    set<string>st;
+    for(auto it:dictionary){
+        st.insert(it);
+    }
+
+    vector<string>ans;
+    int sz=s.size();
+    string path="";
+    helper(0,sz,s,st,path,ans);
+    return ans;
+}
