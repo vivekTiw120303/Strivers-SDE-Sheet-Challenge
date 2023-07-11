@@ -1,0 +1,33 @@
+#include <bits/stdc++.h> 
+
+bool helper(int i, int n, string &word, set<string>&st, vector<int>&dp)
+{
+    if(i==n)
+    {
+        return true;
+    }
+    if(dp[i]!=-1){
+        return dp[i];
+    }
+
+    string temp="";
+    for(int j=i;j<n;j++){
+        temp+=word[j];
+        if(st.find(temp)!=st.end()){
+            if(helper(j+1,n,word,st,dp)==true){
+                return dp[i] = true;
+            }
+        }
+    }
+    return dp[i] = false;
+}
+
+bool wordBreak(vector <string> &arr, int n, string &target) {
+    set<string>st;
+    for(auto it:arr){
+        st.insert(it);
+    }
+    int sz=target.size();
+    vector<int>dp(sz,-1);
+    return helper(0,sz,target,st,dp);
+}
