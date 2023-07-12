@@ -1,0 +1,57 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+void invert(TreeNode<int>* root, TreeNode<int>* parent, TreeNode<int>* leaf, TreeNode<int>* &ans, bool &flag)
+{
+    if(!root) return;
+
+    if(root->data==leaf->data){
+        root->left=parent;
+        flag=true;
+        ans=root;
+        return;
+    }
+
+    invert(root->left,root,leaf,ans,flag);
+
+    if(flag){
+        root->left=parent;
+        return;
+    }
+
+    invert(root->right,root,leaf,ans,flag);
+
+    if(flag){
+        if(root->left) root->right=root->left;
+        else root->right=NULL;
+        root->left=parent;
+        return;
+    }
+}
+
+
+TreeNode<int> * invertBinaryTree(TreeNode<int> *root, TreeNode<int> *leaf)
+{
+    bool flag=false;
+	TreeNode<int>* ans=NULL;
+    invert(root,NULL,leaf,ans,flag);
+    return ans; 
+}
