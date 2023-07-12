@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+
+bool check(int diff, int c, int n, vector<int>&positions)
+{
+	int cnt=1;
+	int pos=positions[0];
+	for(int i=0;i<n;i++)
+	{
+		if(positions[i]-pos>=diff){
+			pos=positions[i];
+			cnt++;
+		}
+
+		if(cnt==c) return true;
+	}
+
+	return false;
+}
+
+int chessTournament(vector<int> positions , int n ,  int c){
+	sort(positions.begin(),positions.end());
+	int low=0, high=positions[n-1]-positions[0];
+
+	int ans;
+	while(low<=high)
+	{
+		int mid=low+(high-low)/2;
+
+		if(check(mid,c,n,positions)){
+			low=mid+1;
+			ans=mid;
+		}
+		else{
+			high=mid-1;
+		}
+	}
+	return ans;
+}
