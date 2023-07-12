@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+int memo(int start, int end, vector<int>&arr, vector<vector<int>>&dp)
+{
+    if(start==end-1) return dp[start][end]=0;
+    if(dp[start][end]!=-1) return dp[start][end];
+
+    int ans=INT_MAX;
+    for(int i=start+1;i<end;i++)
+    {
+        if(dp[start][i]==-1){
+            dp[start][i]=memo(start,i,arr,dp);
+        }
+        if(dp[i][end]==-1){
+            dp[i][end]=memo(i,end,arr,dp);
+        }
+
+        ans=min(ans, dp[start][i]+dp[i][end] + arr[start]*arr[i]*arr[end]);
+    }
+    return dp[start][end] = ans;
+}
+
+int matrixMultiplication(vector<int> &arr, int N)
+{
+    vector<vector<int>>dp(N, vector<int>(N,-1));
+    return memo(0,N-1,arr,dp);
+}
