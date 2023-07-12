@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+
+class Tree{
+	public:
+		int height, leftIndex, rightIndex;
+
+		Tree(int h, int l, int r){
+			height=h;
+			leftIndex=l;
+			rightIndex=r;
+		}
+};
+
+int heightOfTheTree(vector<int>& inorder, vector<int>& levelOrder, int N){
+	unordered_map<int,int>levelMap;
+	for(int i=0;i<N;i++)
+	{
+		levelMap[inorder[i]]=i;
+	}
+
+	queue<Tree>q;
+	if(N>=1){
+		Tree tree(0,0,N-1);
+		q.push(tree);
+	}
+
+	int ans=0;
+	for(int i=0;i<N;i++){
+		Tree tree=q.front();
+		q.pop();
+
+		int height=tree.height;
+		int leftIndex=tree.leftIndex;
+		int rightIndex=tree.rightIndex;
+
+		ans=max(ans,height);
+		int ind=levelMap[levelOrder[i]];
+
+		if(ind-1>=leftIndex){
+			Tree leftTree(height+1,leftIndex,ind-1);
+			q.push(leftTree);
+		}
+		if(ind+1<=rightIndex){
+			Tree rightTree(height+1,ind+1,rightIndex);
+			q.push(rightTree);
+		}
+	}
+	return ans;
+}
