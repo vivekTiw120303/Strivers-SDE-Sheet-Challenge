@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+int jobScheduling(vector<vector<int>> &jobs)
+{
+    unordered_map<int, vector<int>>mp;
+    int max_dead=0;
+    for(auto it:jobs){
+        max_dead=max(max_dead,it[0]);
+        mp[it[0]].push_back(it[1]);
+    }
+    priority_queue<int>pq;
+    int profit;
+    for(int i=max_dead;i>0;i--)
+    {
+        for(auto it:mp[i]){
+            pq.push(it);
+        }
+        if(pq.size()==0) continue;
+        profit+=pq.top();
+        pq.pop();
+    }
+    return profit;
+}
