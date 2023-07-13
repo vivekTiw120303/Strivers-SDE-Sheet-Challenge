@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+
+int memo(int n, int k, vector<vector<int>>&dp)
+{
+    if(n<=0 || k<=0) return 0;
+    if(n==1) return 1;
+    if(k==1) return n;
+
+    if(dp[n][k]!=-1) return dp[n][k];
+
+    int low=1, high=n;
+    int ans=INT_MAX;
+    while(low<=high)
+    {
+        int mid=low+(high-low)/2;
+        int broke=memo(mid-1,k-1,dp);
+        int notBroke=memo(n-mid,k,dp);
+
+        ans=min(ans, max(broke,notBroke)+1);
+
+        if(broke<notBroke) low=mid+1;
+        else high=mid-1;
+    } 
+    return dp[n][k]=ans;
+}
+
+int cutLogs(int k, int n)
+{
+    vector<vector<int>>dp(n+1, vector<int>(k+1,-1));
+    return memo(n,k,dp);
+}
