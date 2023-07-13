@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+
+int memo(int ind, int n, vector<int>&price, vector<vector<int>>&dp)
+{
+	if(ind==0) return n*price[0];
+	if(dp[ind][n]!=-1) return dp[ind][n];
+
+	int take=0;
+	if(ind+1<=n){
+		take=price[ind]+memo(ind,n-(ind+1),price,dp);
+	}
+	int notTake=memo(ind-1,n,price,dp);
+
+	return dp[ind][n]=max(take,notTake);
+}
+
+int cutRod(vector<int> &price, int n)
+{
+	vector<vector<int>>dp(n+1, vector<int>(n+1,-1));
+	return memo(n-1,n,price,dp);
+}
